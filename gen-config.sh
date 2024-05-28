@@ -1,24 +1,25 @@
 #!/bin/bash
 
+# Define BASEURL variable
 BASEURL="https://monitoringapi.solaredge.com"
 
-CONFIG_FILE="secrets.sh"
+# Define CONFIG_FILE variable
+CONFIG_FILE="config.py"
 
+# Prompt the user for their tokens and site id
 echo -n "Enter your Solaredge's token: "
-read -r SITE_TOKEN
+read -r site_token
 echo -n "Enter your Solaredge's site id: "
-read -r SITE_ID
+read -r site_id
 echo -n "Enter your Telegram bot token: "
-read -r BOT_TOKEN
-echo -n "Enter your Telegram chat id(s) (comma-separated): "
-read -r CHAT_ID
+read -r bot_token
 
+# Write the configuration to the config.py file
 cat <<EOL > $CONFIG_FILE
-export BASEURL='$BASEURL'
-export SITE_TOKEN='$SITE_TOKEN'
-export SITE_ID='$SITE_ID'
-export BOT_TOKEN='$BOT_TOKEN'
-export CHAT_ID='$CHAT_ID'
+BASEURL = '$BASEURL'
+site_token = '$site_token'
+bot_token = '$bot_token'
+site_id = '$site_id'
 EOL
 
-echo "Configuration written to $CONFIG_FILE."
+echo "Configuration written to $CONFIG_FILE"
