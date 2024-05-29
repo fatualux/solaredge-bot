@@ -49,34 +49,40 @@ class Overview:
     def print_site_overview(self, overview_data):
         overview = overview_data.get('overview')
         if overview:
-            energy_life_time_kwh = self.convert_to_kwh(overview['lifeTimeData']['energy'])
-            energy_last_year_kwh = self.convert_to_kwh(overview.get('lastYearData', {}).get('energy', 0))
-            energy_last_month_kwh = self.convert_to_kwh(overview.get('lastMonthData', {}).get('energy', 0))
-            energy_last_day_kwh = self.convert_to_kwh(overview.get('lastDayData', {}).get('energy', 0))
-            power_kw = self.convert_to_kw(overview['currentPower']['power'])
-
             overview_str = "Site Overview:\n"
             overview_str += (
                 f"Last Update Time: {self.escape_markdown(overview.get('lastUpdateTime'))}\n"
                 "Life Time Data:\n"
-                f"  Energy: {energy_life_time_kwh:.3f} kWh\n" +
-                f"  Revenue: {self.escape_markdown(str(overview['lifeTimeData']['revenue']))} €\n"
+                f"  Energy: {self.escape_markdown(f'{self.convert_to_kwh(overview['lifeTimeData']['energy']):.3f}')} kWh\n"
+                f"  Revenue: {self.escape_markdown(str(overview['lifeTimeData']['revenue']))}\n"
                 "Last Year Data:\n"
             )
-            overview_str += (
-                f"  Energy: {energy_last_year_kwh:.3f} kWh\n" if energy_last_year_kwh else "  No data available for last year.\n"
-            )
+            last_year_data = overview.get('lastYearData')
+            if last_year_data:
+                overview_str += (
+                    f"  Energy: {self.escape_markdown(f'{self.convert_to_kwh(last_year_data.get('energy')):.3f}')} kWh\n"
+                )
+            else:
+                overview_str += "  No data available for last year.\n"
             overview_str += "Last Month Data:\n"
-            overview_str += (
-                f"  Energy: {energy_last_month_kwh:.3f} kWh\n" if energy_last_month_kwh else "  No data available for last month.\n"
-            )
+            last_month_data = overview.get('lastMonthData')
+            if last_month_data:
+                overview_str += (
+                    f"  Energy: {self.escape_markdown(f'{self.convert_to_kwh(last_month_data.get('energy')):.3f}')} kWh\n"
+                )
+            else:
+                overview_str += "  No data available for last month.\n"
             overview_str += "Last Day Data:\n"
+            last_day_data = overview.get('lastDayData')
+            if last_day_data:
+                overview_str += (
+                    f"  Energy: {self.escape_markdown(f'{self.convert_to_kwh(last_day_data.get('energy')):.3f}')} kWh\n"
+                )
+            else:
+                overview_str += "  No data available for last day.\n"
+            overview_str += "Current Power:\n"
             overview_str += (
-                f"  Energy: {energy_last_day_kwh:.3f} kWh\n" if energy_last_day_kwh else "  No data available for last day.\n"
-            )
-            overview_str += (
-                "Current Power:\n"
-                f"  Power: {power_kw:.3f} kW\n"
+                f"  Power: {self.escape_markdown(f'{self.convert_to_kw(overview['currentPower']['power']):.3f}')} kW\n"
             )
             return overview_str
         else:
