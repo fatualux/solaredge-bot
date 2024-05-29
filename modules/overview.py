@@ -54,7 +54,7 @@ class Overview:
                 f"Last Update Time: {self.escape_markdown(overview.get('lastUpdateTime'))}\n"
                 "Life Time Data:\n"
                 f"  Energy: {self.escape_markdown(f'{self.convert_to_kwh(overview['lifeTimeData']['energy']):.3f}')} kWh\n"
-                f"  Revenue: {self.escape_markdown(str(overview['lifeTimeData']['revenue']))}\n"
+                f"  Revenue: {self.escape_markdown(str(overview['lifeTimeData']['revenue']))} €\n"
                 "Last Year Data:\n"
             )
             last_year_data = overview.get('lastYearData')
