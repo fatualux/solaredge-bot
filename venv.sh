@@ -5,24 +5,13 @@ source ./venv.cfg
 
 # verify if config.py exists and create it if not
 config_file_exists() {
-  if [ -f $CONFIG_FILE ]; then
-    echo "Config file found."
+  if [ -f "$CONFIG_FILE" ]; then
+    echo "Config file $CONFIG_FILE found."
   else
-    echo "Config file not found. Creating..."
-    echo -n "Enter your Solaredge's token: "
-    read -r site_token
-    echo -n "Enter your Solaredge's site id: "
-    read -r site_id
-    echo -n "Enter your Telegram bot token: "
-    read -r bot_token
-    echo "BASEURL = '$BASEURL'" > $CONFIG_FILE
-    echo "bot_token = '$bot_token'" > $CONFIG_FILE
-    echo "site_token = '$site_token'" >> $CONFIG_FILE
-    echo "site_id = '$site_id'" >> $CONFIG_FILE
-    echo "Config file created."
+    echo "Config file $CONFIG_FILE not found, generating..."
+    sh ./gen-config.sh
   fi
 }
-
 
 deactivate_venv() {
   echo "Deactivating virtual environment..."
@@ -35,7 +24,7 @@ trap deactivate_venv SIGINT
 
 dependency_check() {
   if command -v virtualenv &> /dev/null; then
-    echo "vOk, virtualenv package is installed on your system."
+    echo "Ok, virtualenv package is installed on your system."
     export VENV_COMMAND=virtualenv
   else
     echo "A suitable Python virtual environment is not installed on your system."
@@ -65,11 +54,8 @@ copy_files() {
   cp $REQUIREMENTS_FILE $WORKDIR
   echo "Copying application file..."
   cp $APP_FILE $WORKDIR
-  echo "Copying config file..."
-  cp $CONFIG_FILE $WORKDIR
   echo "Copying modules..."
   cp -r $MODULES_DIR $WORKDIR
-
   echo ""
   echo "Done."
 }
@@ -82,16 +68,24 @@ venv_activate() {
 
 install_req() {
   echo "Installing requirements..."
-  pip install --upgrade pip && pip install -r $REQUIREMENTS_FILE
+  pip install --upgrade pip && pip install -r $WORKDIR/$REQUIREMENTS_FILE
   echo ""
   echo "Done."
 }
 
 starting_app() {
+  echo "Configuring your secrets..."
+  source ./$CONFIG_FILE
+  echo "Done."
+  echo ""
   echo "Starting application..."
   echo ""
   python $WORKDIR/$APP_FILE
 }
+
+# Debugging information
+echo "Current directory: $(pwd)"
+echo "Config file path: $CONFIG_FILE"
 
 config_file_exists
 dependency_check
