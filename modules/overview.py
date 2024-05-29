@@ -87,3 +87,11 @@ class Overview:
             return overview_str
         else:
             return "No site overview data found."
+
+
+if __name__ == "__main__":
+    # Example usage:
+    overview = Overview("your_api_key_here")
+    site_id = "your_site_id_here"
+    overview_data = overview.get_site_overview(site_id)
+    print(overview.print_site_overview(overview_data))
