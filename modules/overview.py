@@ -32,20 +32,6 @@ class Overview:
         return re.sub(
             f"([{re.escape(escape_chars)}])", r'\\\1', text)
 
-    @staticmethod
-    def convert_to_kwh(value):
-        """
-        Helper function to convert Wh to kWh.
-        """
-        return value / 1000.0
-
-    @staticmethod
-    def convert_to_kw(value):
-        """
-        Helper function to convert W to kW.
-        """
-        return value / 1000.0
-
     def print_site_overview(self, overview_data):
         overview = overview_data.get('overview')
         if overview:
@@ -53,14 +39,14 @@ class Overview:
             overview_str += (
                 f"Last Update Time: {self.escape_markdown(overview.get('lastUpdateTime'))}\n"
                 "Life Time Data:\n"
-                f"  Energy: {self.escape_markdown(f'{self.convert_to_kwh(overview['lifeTimeData']['energy']):.3f}')} kWh\n"
-                f"  Revenue: {self.escape_markdown(str(overview['lifeTimeData']['revenue']))}\n"
+                f"  Energy: {self.escape_markdown(str(overview['lifeTimeData']['energy']))} Wh\n"
+                f"  Revenue: {self.escape_markdown(str(overview['lifeTimeData']['revenue']))} Currency\n"
                 "Last Year Data:\n"
             )
             last_year_data = overview.get('lastYearData')
             if last_year_data:
                 overview_str += (
-                    f"  Energy: {self.escape_markdown(f'{self.convert_to_kwh(last_year_data.get('energy')):.3f}')} kWh\n"
+                    f"  Energy: {self.escape_markdown(str(last_year_data.get('energy')))} Wh\n"
                 )
             else:
                 overview_str += "  No data available for last year.\n"
@@ -68,7 +54,7 @@ class Overview:
             last_month_data = overview.get('lastMonthData')
             if last_month_data:
                 overview_str += (
-                    f"  Energy: {self.escape_markdown(f'{self.convert_to_kwh(last_month_data.get('energy')):.3f}')} kWh\n"
+                    f"  Energy: {self.escape_markdown(str(last_month_data.get('energy')))} Wh\n"
                 )
             else:
                 overview_str += "  No data available for last month.\n"
@@ -76,22 +62,14 @@ class Overview:
             last_day_data = overview.get('lastDayData')
             if last_day_data:
                 overview_str += (
-                    f"  Energy: {self.escape_markdown(f'{self.convert_to_kwh(last_day_data.get('energy')):.3f}')} kWh\n"
+                    f"  Energy: {self.escape_markdown(str(last_day_data.get('energy')))} Wh\n"
                 )
             else:
                 overview_str += "  No data available for last day.\n"
             overview_str += "Current Power:\n"
             overview_str += (
-                f"  Power: {self.escape_markdown(f'{self.convert_to_kw(overview['currentPower']['power']):.3f}')} kW\n"
+                f"  Power: {self.escape_markdown(str(overview['currentPower']['power']))} W\n"
             )
             return overview_str
         else:
             return "No site overview data found."
-
-
-if __name__ == "__main__":
-    # Example usage:
-    overview = Overview("your_api_key_here")
-    site_id = "your_site_id_here"
-    overview_data = overview.get_site_overview(site_id)
-    print(overview.print_site_overview(overview_data))
