@@ -1,10 +1,7 @@
 import time
 from datetime import datetime, time as dtime
 import sys
-import config as cfg
 from modules.overview import Overview
-
-sys.path.append('..')
 
 
 class Automate:
@@ -12,12 +9,12 @@ class Automate:
         self.bot = bot
         self.interval = 60  # Set the interval to 60 minutes by default
         self.stop_requested = False
-        self.overview_api = Overview(cfg.site_token)
+        self.overview_api = Overview(SITE_TOKEN)
 
-    def send_automated_messages(self, chat_id):
+    def send_automated_messages(self, CHAT_ID):
         try:
             # Send start cycle message
-            self.bot.sendMessage(chat_id, "Automated messages started.")
+            self.bot.sendMessage(CHAT_ID, "Automated messages started.")
 
             while not self.stop_requested:
                 # Check if current time is within the allowed range
@@ -26,23 +23,23 @@ class Automate:
                 if dtime(7, 0) <= current_time <= dtime(21, 30):
                     # Get overview data
                     overview_data = self.overview_api.get_site_overview(
-                        cfg.site_id
+                        SITE_ID
                     )
                     overview_message = self.overview_api.print_site_overview(
                         overview_data
                     )
 
                     # Send overview message
-                    self.bot.sendMessage(chat_id, overview_message)
+                    self.bot.sendMessage(CHAT_ID, overview_message)
                 else:
                     # Send stop cycle message if outside allowed range
                     msg = "Automated messages stopped at 21:30."
-                    self.bot.sendMessage(chat_id, msg)
+                    self.bot.sendMessage(CHAT_ID, msg)
                     self.stop_requested = True
 
                 time.sleep(self.interval * 60)  # Convert minutes to seconds
 
             # Send stop cycle message
-            self.bot.sendMessage(chat_id, "Automated messages stopped.")
+            self.bot.sendMessage(CHAT_ID, "Automated messages stopped.")
         except Exception as e:
-            self.bot.sendMessage(chat_id, f"An error occurred: {str(e)}")
+            self.bot.sendMessage(CHAT_ID, f"An error occurred: {str(e)}")

@@ -1,20 +1,18 @@
 import requests
 from urllib.parse import urljoin
-import sys
-import config as cfg
 
-sys.path.append('..')
+BASEURL = "https://monitoringapi.solaredge.com/equipment/"
 
 
 class Energy:
     def __init__(self, token):
         self.token = token
 
-    def get_site_energy(self, site_id, start_date, end_date):
+    def get_site_energy(self, SITE_ID, start_date, end_date):
         """
         Get site energy measurements for a specified time period.
         """
-        url = urljoin(cfg.BASEURL, f"site/{site_id}/energy")
+        url = urljoin(BASEURL, f"site/{SITE_ID}/energy")
         params = {
             'api_key': self.token,
             'timeUnit': 'DAY',

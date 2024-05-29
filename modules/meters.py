@@ -1,16 +1,14 @@
 import requests
 from urllib.parse import urljoin
 from datetime import datetime
-import sys
-import config as cfg
 
-sys.path.append('..')
+BASEURL = "https://monitoringapi.solaredge.com/equipment/"
 
 
 class Meters:
-    def __init__(self, site_token, site_id, meters=None, time_unit='DAY'):
-        self.site_token = site_token
-        self.site_id = site_id
+    def __init__(self, SITE_TOKEN, SITE_ID, meters=None, time_unit='DAY'):
+        self.SITE_TOKEN = SITE_TOKEN
+        self.SITE_ID = SITE_ID
         self.meters = meters
         self.time_unit = time_unit
 
@@ -21,9 +19,9 @@ class Meters:
             end_time.year, end_time.month, end_time.day, 7, 0, 0
         )
 
-        url = urljoin(cfg.BASEURL, f"site/{self.site_id}/meters")
+        url = urljoin(BASEURL, f"site/{self.SITE_ID}/meters")
         params = {
-            'api_key': self.site_token,
+            'api_key': self.SITE_TOKEN,
             'startTime': start_time.strftime('%Y-%m-%d %H:%M:%S'),
             'endTime': end_time.strftime('%Y-%m-%d %H:%M:%S'),
             'timeUnit': self.time_unit

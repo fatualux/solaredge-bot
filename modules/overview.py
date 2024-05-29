@@ -1,9 +1,7 @@
 import requests
 from urllib.parse import urljoin
-import sys
-import config as cfg
 
-sys.path.append('..')
+BASEURL = "https://monitoringapi.solaredge.com/equipment/"
 
 
 class Overview:
@@ -14,7 +12,7 @@ class Overview:
         """
         Get site overview data.
         """
-        url = urljoin(cfg.BASEURL, f"site/{site_id}/overview")
+        url = urljoin(BASEURL, f"site/{site_id}/overview")
         params = {
             'api_key': cfg.site_token
         }

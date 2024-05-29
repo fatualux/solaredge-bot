@@ -1,17 +1,15 @@
 import requests
 from urllib.parse import urljoin
-import sys
-import config as cfg
 
-sys.path.append('..')
+BASEURL = "https://monitoringapi.solaredge.com/equipment/"
 
 
 class Details:
     def __init__(self, token):
         self.token = token
 
-    def get_details(self, site_id):
-        base_url = urljoin(cfg.BASEURL, f"site/{site_id}/details")
+    def get_details(self, SITE_ID):
+        base_url = urljoin(BASEURL, f"site/{SITE_ID}/details")
         url = f"{base_url}?api_key={self.token}"
         print("Request URL:", url)
         response = requests.get(url)
@@ -43,7 +41,7 @@ class Details:
             f"modelName: {details['primaryModule']['modelName']}\n"
             f"maximumPower: {details['primaryModule']['maximumPower']}\n"
             f"temperatureCoef: {details['primaryModule']['temperatureCoef']}\n"
-            f"{urljoin(cfg.BASEURL, '/site/' + str(details['id']))}\n"
+            f"{urljoin(BASEURL, '/site/' + str(details['id']))}\n"
             f"\n"
         )
         return formatted_details

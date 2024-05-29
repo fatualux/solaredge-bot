@@ -1,6 +1,7 @@
 import requests
 from urllib.parse import urljoin
-import config as cfg
+
+BASEURL = "https://monitoringapi.solaredge.com/equipment/"
 
 
 class Production:
@@ -8,9 +9,9 @@ class Production:
         self.token = token
 
     def get_daily_production(self, start_date, end_date):
-        url = urljoin(cfg.BASEURL, f"site/{cfg.site_id}/energy")
+        url = urljoin(BASEURL, f"site/{SITE_ID}/energy")
         params = {
-            'api_key': cfg.site_token,
+            'api_key': SITE_TOKEN,
             'timeUnit': 'DAY',
             'startDate': start_date.strftime('%Y-%m-%d'),
             'endDate': end_date.strftime('%Y-%m-%d')

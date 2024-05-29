@@ -7,7 +7,6 @@ from modules.production import Production
 from modules.energy import Energy
 from modules.power import Power
 from modules.sensors import Sensors
-import config as cfg
 
 
 class MessageHandler:
@@ -28,32 +27,32 @@ class MessageHandler:
         }
 
         # Initialize APIs here if needed
-        self.details_api = Details(cfg.site_token)
-        self.overview_api = Overview(cfg.site_token)
-        self.meters_api = Meters(cfg.site_token, cfg.site_id)
-        self.production_api = Production(cfg.site_token)
-        self.energy_api = Energy(cfg.site_token)
-        self.power_api = Power(cfg.site_token)
-        self.sensors_api = Sensors(cfg.site_token)
+        self.details_api = Details(SITE_TOKEN)
+        self.overview_api = Overview(SITE_TOKEN)
+        self.meters_api = Meters(SITE_TOKEN, SITE_ID)
+        self.production_api = Production(SITE_TOKEN)
+        self.energy_api = Energy(SITE_TOKEN)
+        self.power_api = Power(SITE_TOKEN)
+        self.sensors_api = Sensors(SITE_TOKEN)
 
     def handle_message(self, msg):
-        content_type, _, chat_id = telepot.glance(msg)
+        content_type, _, CHAT_ID = telepot.glance(msg)
         if content_type == 'text':
             command = msg['text']
             if command in self.handlers:
-                self.handlers[command](chat_id)
+                self.handlers[command](CHAT_ID)
             else:
                 msg = "Sorry, I didn't understand that command."
-                self.bot.sendMessage(chat_id, msg)
+                self.bot.sendMessage(CHAT_ID, msg)
         else:
             msg = "Sorry, I only understand text messages."
-            self.bot.sendMessage(chat_id, msg)
+            self.bot.sendMessage(CHAT_ID, msg)
 
-    def handle_start(self, chat_id):
+    def handle_start(self, CHAT_ID):
         msg = "Welcome to SolarEdge Bot. Type /help to see available commands."
-        self.bot.sendMessage(chat_id, "Hello! " + msg)
+        self.bot.sendMessage(CHAT_ID, "Hello! " + msg)
 
-    def handle_help(self, chat_id):
+    def handle_help(self, CHAT_ID):
         help_message = (
             "Available commands:\n"
             "/details - Get site details\n"
@@ -67,26 +66,26 @@ class MessageHandler:
             "/start - Start the bot\n"
             "/help - Show this help message"
         )
-        self.bot.sendMessage(chat_id, help_message)
+        self.bot.sendMessage(CHAT_ID, help_message)
 
-    def handle_details(self, chat_id):
-        details = self.details_api.get_details(cfg.site_id)
+    def handle_details(self, CHAT_ID):
+        details = self.details_api.get_details(SITE_ID)
         formatted_details = self.details_api.format_site_details(details)
-        self.bot.sendMessage(chat_id, formatted_details)
+        self.bot.sendMessage(CHAT_ID, formatted_details)
 
-    def handle_overview(self, chat_id):
-        overview_data = self.overview_api.get_site_overview(cfg.site_id)
+    def handle_overview(self, CHAT_ID):
+        overview_data = self.overview_api.get_site_overview(SITE_ID)
         self.bot.sendMessage(
-            chat_id, self.overview_api.print_site_overview(overview_data)
+            CHAT_ID, self.overview_api.print_site_overview(overview_data)
         )
 
-    def handle_meters(self, chat_id):
+    def handle_meters(self, CHAT_ID):
         meters_data = self.meters_api.get_meter_data()
         self.bot.sendMessage(
-            chat_id, self.meters_api.print_meter_data(meters_data)
+            CHAT_ID, self.meters_api.print_meter_data(meters_data)
         )
 
-    def handle_production(self, chat_id):
+    def handle_production(self, CHAT_ID):
         start_date = datetime.now().replace(
             hour=0, minute=0, second=0, microsecond=0
         )
@@ -97,12 +96,12 @@ class MessageHandler:
             start_date, end_date
         )
         self.bot.sendMessage(
-            chat_id, self.production_api.print_daily_production(
+            CHAT_ID, self.production_api.print_daily_production(
                 production_data
             )
         )
 
-    def handle_energy(self, chat_id):
+    def handle_energy(self, CHAT_ID):
         start_date = datetime.now().replace(
             hour=0, minute=0, second=0, microsecond=0
         )
@@ -110,30 +109,30 @@ class MessageHandler:
             hour=23, minute=59, second=59, microsecond=999
         )
         energy_data = self.energy_api.get_site_energy(
-            cfg.site_id,
+            SITE_ID,
             start_date.strftime('%Y-%m-%d'),
             end_date.strftime('%Y-%m-%d')
         )
         formatted_energy_data = self.energy_api.format_energy_data(energy_data)
-        self.bot.sendMessage(chat_id, formatted_energy_data)
+        self.bot.sendMessage(CHAT_ID, formatted_energy_data)
 
-    def handle_power(self, chat_id):
-        power_data = self.power_api.get_site_power(cfg.site_id)
+    def handle_power(self, CHAT_ID):
+        power_data = self.power_api.get_site_power(SITE_ID)
         formatted_power_data = self.power_api.format_power_data(power_data)
-        self.bot.sendMessage(chat_id, f"Power data:\n{formatted_power_data}")
+        self.bot.sendMessage(CHAT_ID, f"Power data:\n{formatted_power_data}")
 
-    def handle_sensors(self, chat_id):
-        sensor_data = self.sensors_api.get_sensor_data(cfg.site_id)
+    def handle_sensors(self, CHAT_ID):
+        sensor_data = self.sensors_api.get_sensor_data(SITE_ID)
         if sensor_data is not None:
             formatted_sensor_data = self.sensors_api.format_sensor_data(
                 sensor_data
             )
             self.bot.sendMessage(
-                chat_id, f"Sensor data:\n{formatted_sensor_data}"
+                CHAT_ID, f"Sensor data:\n{formatted_sensor_data}"
             )
         else:
-            self.bot.sendMessage(chat_id, "No sensor data available.")
+            self.bot.sendMessage(CHAT_ID, "No sensor data available.")
 
-    def handle_automate(self, chat_id):
+    def handle_automate(self, CHAT_ID):
         self.automate_module.interval = 90
-        self.automate_module.send_automated_messages(chat_id)
+        self.automate_module.send_automated_messages(CHAT_ID)

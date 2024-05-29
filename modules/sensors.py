@@ -7,9 +7,9 @@ class Sensors:
     def __init__(self, api_key):
         self.api_key = api_key
 
-    def get_sensor_data(self, site_id):
+    def get_sensor_data(self, SITE_ID):
         url = (
-            f"{base_url}{site_id}/sensors"
+            f"{base_url}{SITE_ID}/sensors"
         )
         params = {'api_key': self.api_key}
         response = requests.get(url, params=params)
