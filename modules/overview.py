@@ -35,41 +35,41 @@ class Overview:
     def print_site_overview(self, overview_data):
         overview = overview_data.get('overview')
         if overview:
-            overview_str = "Site Overview:\n"
+            overview_str = "*Site Overview:*\n\n"
             overview_str += (
-                f"Last Update Time: {self.escape_markdown(overview.get('lastUpdateTime'))}\n"
-                "Life Time Data:\n"
-                f"  Energy: {self.escape_markdown(str(overview['lifeTimeData']['energy']))} Wh\n"
-                f"  Revenue: {self.escape_markdown(str(overview['lifeTimeData']['revenue']))} €\n"
-                "Last Year Data:\n"
+                f"*Last Update Time:*\n {self.escape_markdown(overview.get('lastUpdateTime'))}\n\n"
+                "*Life Time Data:*\n"
+                f"  *Energy:* {self.escape_markdown(str(overview['lifeTimeData']['energy']))} Wh\n"
+                f"  *Revenue:* {self.escape_markdown(str(overview['lifeTimeData']['revenue']))} €\n\n"
+                "*Last Year Data:*\n"
             )
             last_year_data = overview.get('lastYearData')
             if last_year_data:
                 overview_str += (
-                    f"  Energy: {self.escape_markdown(str(last_year_data.get('energy')))} Wh\n"
+                    f"  *Energy:* {self.escape_markdown(str(last_year_data.get('energy')))} Wh\n\n"
                 )
             else:
-                overview_str += "  No data available for last year.\n"
-            overview_str += "Last Month Data:\n"
+                overview_str += "  No data available for last year.\n\n"
+            overview_str += "*Last Month Data:*\n"
             last_month_data = overview.get('lastMonthData')
             if last_month_data:
                 overview_str += (
-                    f"  Energy: {self.escape_markdown(str(last_month_data.get('energy')))} Wh\n"
+                    f"  *Energy:* {self.escape_markdown(str(last_month_data.get('energy')))} Wh\n\n"
                 )
             else:
                 overview_str += "  No data available for last month.\n"
-            overview_str += "Last Day Data:\n"
+            overview_str += "*Last Day Data:*\n"
             last_day_data = overview.get('lastDayData')
             if last_day_data:
                 overview_str += (
-                    f"  Energy: {self.escape_markdown(str(last_day_data.get('energy')))} Wh\n"
+                    f"   *Energy:* {self.escape_markdown(str(last_day_data.get('energy')))} Wh\n\n"
                 )
             else:
-                overview_str += "  No data available for last day.\n"
-            overview_str += "Current Power:\n"
+                overview_str += "  No data available for last day.\n\n"
+            overview_str += "*Current Power:*\n"
             overview_str += (
-                f"  Power: {self.escape_markdown(str(overview['currentPower']['power']))} W\n"
+                f"  *Power:* {self.escape_markdown(str(overview['currentPower']['power']))} W\n\n"
             )
             return overview_str
         else:
-            return "No site overview data found."
+            return "No site overview data found.\n"
