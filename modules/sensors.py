@@ -1,6 +1,17 @@
 import requests
+import logging
+import os
 
-base_url = "https://monitoringapi.solaredge.com/equipment/"
+logging.basicConfig(level=logging.DEBUG)
+logging.getLogger("main").setLevel(logging.DEBUG)
+
+# Load environment variables
+SITE_TOKEN = os.getenv("SITE_TOKEN")
+SITE_ID = os.getenv("SITE_ID")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
+
+BASE_URL = "https://monitoringapi.solaredge.com/"
 
 
 class Sensors:
@@ -9,7 +20,7 @@ class Sensors:
 
     def get_sensor_data(self, SITE_ID):
         url = (
-            f"{base_url}{SITE_ID}/sensors"
+            f"{BASE_URL}{SITE_ID}/sensors"
         )
         params = {'api_key': self.api_key}
         response = requests.get(url, params=params)

@@ -1,7 +1,7 @@
 import requests
 from urllib.parse import urljoin
 
-BASEURL = "https://monitoringapi.solaredge.com/equipment/"
+BASEURL = "https://monitoringapi.solaredge.com/site/"
 
 
 class Energy:
@@ -12,7 +12,7 @@ class Energy:
         """
         Get site energy measurements for a specified time period.
         """
-        url = urljoin(BASEURL, f"site/{SITE_ID}/energy")
+        url = urljoin(BASEURL, f"{SITE_ID}/energy")
         params = {
             'api_key': self.token,
             'timeUnit': 'DAY',

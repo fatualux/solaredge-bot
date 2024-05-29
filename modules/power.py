@@ -1,5 +1,18 @@
 import requests
 from datetime import datetime, timedelta
+import logging
+import os
+
+logging.basicConfig(level=logging.DEBUG)
+logging.getLogger("main").setLevel(logging.DEBUG)
+
+# Load environment variables
+SITE_TOKEN = os.getenv("SITE_TOKEN")
+SITE_ID = os.getenv("SITE_ID")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
+
+BASEURL = "https://monitoringapi.solaredge.com/site/"
 
 
 class Power:
@@ -11,7 +24,7 @@ class Power:
         # Adjust start time to 6 hours before the current time
         start_time = current_time - timedelta(hours=6)
         end_time = current_time
-        url = f"https://monitoringapi.solaredge.com/site/{SITE_ID}/power"
+        url = f"{BASEURL}{SITE_ID}/power"
         params = {
             'startTime': start_time.strftime('%Y-%m-%d %H:%M:%S'),
             'endTime': end_time.strftime('%Y-%m-%d %H:%M:%S'),

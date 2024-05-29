@@ -3,6 +3,17 @@ from modules.message_handler import MessageHandler
 from modules.automate import Automate
 from modules.overview import Overview
 from modules.production import Production
+import logging
+import os
+
+logging.basicConfig(level=logging.DEBUG)
+logging.getLogger("main").setLevel(logging.DEBUG)
+
+# Load environment variables
+SITE_TOKEN = os.getenv("SITE_TOKEN")
+SITE_ID = os.getenv("SITE_ID")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
 
 # Initialize the Telegram bot
 bot = telepot.Bot(BOT_TOKEN)

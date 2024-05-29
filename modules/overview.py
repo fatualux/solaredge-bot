@@ -1,20 +1,31 @@
 import requests
 from urllib.parse import urljoin
+import logging
+import os
 
-BASEURL = "https://monitoringapi.solaredge.com/equipment/"
+logging.basicConfig(level=logging.DEBUG)
+logging.getLogger("main").setLevel(logging.DEBUG)
+
+# Load environment variables
+SITE_TOKEN = os.getenv("SITE_TOKEN")
+SITE_ID = os.getenv("SITE_ID")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
+
+BASEURL = "https://monitoringapi.solaredge.com/site/"
 
 
 class Overview:
     def __init__(self, token):
         self.token = token
 
-    def get_site_overview(self, site_id):
+    def get_site_overview(self, SITE_ID):
         """
         Get site overview data.
         """
-        url = urljoin(BASEURL, f"site/{site_id}/overview")
+        url = urljoin(BASEURL, f"{SITE_ID}/overview")
         params = {
-            'api_key': cfg.site_token
+            'api_key': SITE_TOKEN
         }
 
         print("Request URL:", url)

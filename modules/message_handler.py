@@ -7,6 +7,17 @@ from modules.production import Production
 from modules.energy import Energy
 from modules.power import Power
 from modules.sensors import Sensors
+import logging
+import os
+
+logging.basicConfig(level=logging.DEBUG)
+logging.getLogger("main").setLevel(logging.DEBUG)
+
+# Load environment variables
+SITE_TOKEN = os.getenv("SITE_TOKEN")
+SITE_ID = os.getenv("SITE_ID")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
 
 
 class MessageHandler:
