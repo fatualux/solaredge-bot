@@ -1,7 +1,8 @@
 import requests
 from urllib.parse import urljoin
-import os
 import re
+
+base_url = "https://monitoringapi.solaredge.com/"
 
 
 class Overview:
@@ -12,7 +13,6 @@ class Overview:
         """
         Get site overview data.
         """
-        base_url = os.getenv("BASEURL")
         url = urljoin(base_url, f"site/{site_id}/overview")
         params = {'api_key': self.token}
 
