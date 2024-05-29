@@ -3,12 +3,12 @@ import os
 from modules.tg_helper import TelegramHelper
 from modules.overview import Overview
 
+BASEURL = "https://monitoringapi.solaredge.com"
 
 logging.basicConfig(level=logging.DEBUG)
 logging.getLogger("main").setLevel(logging.DEBUG)
 
 # Load environment variables
-BASEURL = os.getenv("BASEURL")
 SITE_TOKEN = os.getenv("SITE_TOKEN")
 SITE_ID = os.getenv("SITE_ID")
 BOT_TOKEN = os.getenv("BOT_TOKEN")
