@@ -1,7 +1,5 @@
 #!/bin/bash
 
-BASEURL="https://monitoringapi.solaredge.com"
-
 CONFIG_FILE="secrets.sh"
 
 echo -n "Enter your Solaredge's token: "
@@ -14,7 +12,6 @@ echo -n "Enter your Telegram chat id(s) (comma-separated): "
 read -r CHAT_ID
 
 cat <<EOL > $CONFIG_FILE
-export BASEURL='$BASEURL'
 export SITE_TOKEN='$SITE_TOKEN'
 export SITE_ID='$SITE_ID'
 export BOT_TOKEN='$BOT_TOKEN'
