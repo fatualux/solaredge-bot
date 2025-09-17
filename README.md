@@ -3,7 +3,7 @@
 ### This is a simple python Telegram bot  to get some information from your Solaredge installation.
 The documentation about Solaredge's API can be found [here](https://knowledge-center.solaredge.com/sites/kc/files/se_monitoring_api.pdf).
 
-I have creted a [markdown version](./API-doc/Summary.md) to make it easier to read.
+I have created a [markdown version](./API-doc/Summary.md) to make it easier to read.
 
 ## REQUIREMENTS
 
